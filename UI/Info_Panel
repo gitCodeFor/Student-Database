@@ -1,0 +1,110 @@
+package UI;
+
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+
+// class of "Student Information" tab
+// User can take information of students in database
+public class Info_Panel extends JPanel
+{
+    // studentCombo is show list of students in database
+    private JComboBox studentCombo;
+
+    private JLabel studentName, studentAge, studentGender;
+    private JList studentSubject;
+    private String[] your_array;
+    private JScrollPane scrollPane;
+
+    public Info_Panel()
+    {
+        setLayout(new GridLayout(5,1));
+
+        // add data in JComboBox with Refresher below
+        studentCombo = new JComboBox();
+        studentCombo.addActionListener(new clickToShowStudentInfoButtonListener());
+
+        // initialize student's cart
+        // set all values in array to " " for avoid null
+        your_array = new String[10];
+        for(int k = 0;k < your_array.length;k++)
+        {
+            your_array[k] = " ";
+        }
+
+        studentName = new JLabel();
+        studentAge = new JLabel();
+        studentGender = new JLabel();
+        studentSubject = new JList(your_array);
+
+        // add JList "studentSubject" into JScrollPane "scrollPane" for add scroll in JList
+        scrollPane = new JScrollPane();
+        scrollPane.setViewportView(studentSubject);
+
+
+        add(studentCombo);
+        add(studentName);
+        add(studentAge);
+        add(studentGender);
+        add(scrollPane);
+    }
+
+    // ActionListener for JComboBox "studentCombo"
+    private class clickToShowStudentInfoButtonListener implements ActionListener
+    {
+        public void actionPerformed(ActionEvent event)
+        {
+            try
+            {
+                // Student_List is list of students in database
+                for(int i = 0;i < Main_Frame.Student_List.length;i++)
+                {
+                    if(Main_Frame.Student_List[i] != null)
+                    {
+                        if(Main_Frame.Student_List[i].getStudentName().equalsIgnoreCase((String)studentCombo.getSelectedItem()))
+                        {
+                            // set student's name, age, gender, and subjects
+                            studentName.setText(Main_Frame.Student_List[i].getStudentName());
+                            studentAge.setText(Integer.toString(Main_Frame.Student_List[i].getStudentAge()));
+                            studentGender.setText(Main_Frame.Student_List[i].getStudentGender());
+
+                            for(int j = 0;j < your_array.length;j++)
+                            {
+                                your_array[j] = (Main_Frame.Student_List[i].getStudentSubjects()[j]);
+                            }
+
+                            return;
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // remove all item in JComboBox, and re-add it
+    public void informationRefresher()
+    {
+        studentCombo.removeAllItems();
+
+        // Student_List is list of students in database
+        for(int i = 0;i < Main_Frame.Student_List.length;i++)
+        {
+            if(Main_Frame.Student_List[i] != null)
+            {
+                studentCombo.addItem(Main_Frame.Student_List[i].getStudentName());
+            }
+            else
+            {
+                // do nothing
+            }
+        }
+    }
+
+}
