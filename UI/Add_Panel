@@ -1,0 +1,111 @@
+package UI;
+
+import Student_Info.Student;
+import Student_Info.Manage_Student_List;
+
+import javax.swing.*;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+
+// Class of "Add Student" tab
+// User can add new student in database with student's name, age, and gender
+public class Add_Panel extends JPanel
+{
+    private JLabel nameLabel, ageLabel, resultLabel;
+    private JTextField nameText, ageText;
+    private JButton inputButton;
+    private ButtonGroup studentGender;
+    private JRadioButton studentMale, studentFemale;
+
+    // constructor of "Add_Panel" class
+    public Add_Panel()
+    {
+        setLayout(new GridLayout(4,2));
+
+        nameLabel = new JLabel("Student Name : ");
+        ageLabel = new JLabel("Student Age : ");
+        resultLabel = new JLabel("");
+        nameText = new JTextField(10);
+        ageText = new JTextField(3);
+
+        inputButton = new JButton("Add");
+        inputButton.addActionListener(new ButtonListener());
+
+        // make radio button to select gender
+        studentMale = new JRadioButton("Male");
+        studentFemale = new JRadioButton("Female");
+
+        // use ButtonGroup to group male and female radio button(if we group radio button, user can only choose one
+        //      radio button from this group)
+        studentGender = new ButtonGroup();
+        studentGender.add(studentMale);
+        studentGender.add(studentFemale);
+
+
+        add(nameLabel);
+        add(nameText);
+        add(ageLabel);
+        add(ageText);
+        add(studentMale);
+        add(studentFemale);
+        add(inputButton);
+        add(resultLabel);
+    }
+
+    // ActionListener of button "Add"
+    private class ButtonListener implements ActionListener
+    {
+        public void actionPerformed(ActionEvent event)
+        {
+            try
+            {
+                String nameString = nameText.getText();
+                String ageString = ageText.getText();
+                int ageInt = Integer.parseInt(ageString);
+
+                String genderString;
+                if(studentMale.isSelected())
+                {
+                    genderString = "Male";
+                }
+                else if(studentFemale.isSelected())
+                {
+                    genderString = "Female";
+                }
+                else
+                {
+                    genderString = " ";
+                }
+
+                // call global variable Manage_Student_List "Student_Database" to add new "Student" in
+                //      global variable Student "Student_List"
+                Student student = new Student(nameString, ageInt, genderString);
+                Main_Frame.Student_Database.addStudent(Main_Frame.Student_List, student);
+
+                // call "addRefresher" function to refresh panel
+                addRefresher();
+
+                resultLabel.setText(nameString + " is added");
+            }
+            catch (NumberFormatException e)
+            {
+                e.printStackTrace();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // set all JTextField to ""
+    public void addRefresher()
+    {
+        nameText.setText("");
+        ageText.setText("");
+    }
+
+
+}
