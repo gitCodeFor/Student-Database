@@ -1,0 +1,53 @@
+package Student_Info;
+
+
+// Class for manage objecgt Student. All the other classes can only manage Student objects through this class
+public class Manage_Student_List
+{
+    // add new student
+    public Student[] addStudent(Student[] Student_List, Student student)
+    {
+        for(int i = 0;i < Student_List.length;i++)
+        {
+            if(Student_List[i] == null)
+            {
+                System.out.println("We added " + student.getStudentName() + " in slot " + i);
+                Student_List[i] = student;
+                return Student_List;
+            }
+        }
+
+        System.out.println("List is full");
+
+        return Student_List;
+    }
+
+    // remove student in specific slot
+    public Student[] removeStudent(Student[] Student_List, int slotNum)
+    {
+        if(slotNum < Student_List.length && slotNum >= 0)
+        {
+            Student_List[slotNum] = null;
+        }
+        else
+        {
+            System.out.println("Wrong slot Number");
+        }
+        return Student_List;
+    }
+
+    // set subject[limit 10]
+    // reset subjects if it already had some
+    public Student[] addSubjects(Student[] Student_List, String[] your_array)
+    {
+        try
+        {
+            Student_List[0].setStudentSubjects(your_array);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return Student_List;
+    }
+}
