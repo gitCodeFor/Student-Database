@@ -1,0 +1,64 @@
+package Student_Info;
+
+
+// Student object
+public class Student
+{
+    private String studentName, studentGender;
+    private int studentAge;
+    private String[] studentSubjects;
+
+    // initialize student information. Each student can take limit 10 subjects
+    public Student(String studentName, int studentAge, String studentGender)
+    {
+        this.studentName = studentName;
+        this.studentAge = studentAge;
+
+        // set all values in array to " " for avoid null
+        this.studentSubjects = new String[10];
+        for(int k = 0;k < this.studentSubjects.length;k++)
+        {
+            this.studentSubjects[k] = " ";
+        }
+
+        this.studentGender = studentGender;
+    }
+
+    // return student's name
+    public String getStudentName()
+    {
+        return this.studentName;
+    }
+
+    // return student's age
+    public int getStudentAge()
+    {
+        return this.studentAge;
+    }
+
+    // return student's subjects
+    public String[] getStudentSubjects()
+    {
+        return this.studentSubjects;
+    }
+
+    // return student's gender
+    public String getStudentGender()
+    {
+        return this.studentGender;
+    }
+
+    // set student's subjects[limit 10]
+    public void setStudentSubjects(String[] your_array)
+    {
+        try
+        {
+            this.studentSubjects = your_array;
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+}
