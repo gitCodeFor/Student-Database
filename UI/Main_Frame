@@ -1,0 +1,86 @@
+package UI;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import Student_Info.Student;
+import Student_Info.Manage_Student_List;
+
+
+// main frame of "Student Database" GUI
+public class Main_Frame
+{
+    // Student is object. Each "Student" objects include name, age, gender, and subjects(limit 10) of one student
+    public static Student[] Student_List;
+
+    // Manage_Student_List is class for control Student objects such as get and/or set student information
+    // When user call function in Manage_Student_List class, he/she must need input of "Student" Object that they want to manage
+    public static Manage_Student_List Student_Database;
+
+    // constructor of "Main_Frame" class
+    public Main_Frame()
+    {
+        Student_List = new Student[10];
+        Student_Database = new Manage_Student_List();
+    }
+
+    public void create_main_frame()
+    {
+        JFrame frame = new JFrame("Student Database");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JTabbedPane tab01 = new JTabbedPane();
+
+        Add_Panel addPanel = new Add_Panel();
+        Remove_Panel removePanel = new Remove_Panel();
+        Subjects_Panel manageSubjects = new Subjects_Panel();
+        Info_Panel studentInfoPanel = new Info_Panel();
+
+        // tab01.addTab("Add Student", new Add_Panel()); is also working
+        tab01.addTab("Add Student", addPanel);
+        tab01.addTab("Remove Student", removePanel);
+        tab01.addTab("Manage Subjects", manageSubjects);
+        tab01.addTab("Student Information", studentInfoPanel);
+
+        // click event(refresh panel) occurs when user click tabs
+        // when user click tab, program automatically call refresh function of that page
+        tab01.addChangeListener(new ChangeListener()
+        {
+            public void stateChanged(ChangeEvent e)
+            {
+                if(tab01.getSelectedIndex() == 0)
+                {
+                    addPanel.addRefresher();
+                }
+                else if(tab01.getSelectedIndex() == 1)
+                {
+                    removePanel.removeRefresher();
+                }
+                else if(tab01.getSelectedIndex() == 2)
+                {
+                    manageSubjects.subjectsRefresher();
+                }
+                else if(tab01.getSelectedIndex() == 3)
+                {
+                    studentInfoPanel.informationRefresher();
+                }
+                else
+                {
+                    System.out.println("Fail to refresh page : Unknown tab");
+                }
+            }
+        }
+        );
+
+        //Add_Panel WPanel01 = new Add_Panel();
+        frame.getContentPane().add(tab01);
+
+        frame.pack();
+
+        frame.setSize(700, 400);
+        frame.setVisible(true);
+    }
+
+
+}
