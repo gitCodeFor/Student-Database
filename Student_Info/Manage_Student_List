@@ -38,11 +38,11 @@ public class Manage_Student_List
 
     // set subject[limit 10]
     // reset subjects if it already had some
-    public Student[] addSubjects(Student[] Student_List, String[] your_array)
+    public Student[] addSubjects(Student[] Student_List, int slot, String[] your_array)
     {
         try
         {
-            Student_List[0].setStudentSubjects(your_array);
+            Student_List[slot].setStudentSubjects(your_array);
         }
         catch(Exception e)
         {
