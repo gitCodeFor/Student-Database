@@ -7,18 +7,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-// class of "Student Information" tab
+    // class of "Student Information" tab
 // User can take information of students in database
-public class Info_Panel extends JPanel
-{
-    // studentCombo is show list of students in database
-    private JComboBox studentCombo;
+    public class Info_Panel extends JPanel
+    {
+        // studentCombo is show list of students in database
+        private JComboBox studentCombo;
 
-    private JLabel studentName, studentAge, studentGender;
-    private JList studentSubject;
-    private String[] your_array;
-    private JScrollPane scrollPane;
-    private JButton showResult;
+        private JLabel studentName, studentAge, studentGender;
+        private JList studentSubject;
+        private String[] your_array;
+        private JScrollPane scrollPane;
 
     public Info_Panel()
     {
