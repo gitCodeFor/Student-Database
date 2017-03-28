@@ -10,24 +10,20 @@ import java.awt.event.ActionListener;
 // User can add or change subjects of student
 public class Subjects_Panel extends JPanel
 {
-    // available_array contain subjects student can take
-    // your_array contain subject student add to his/her cart (it is just cart, so if student want to add those subjects into database,
-    //          they must need to submit request)
-    String[] available_array, your_array;
+    // your_array contain subject student add to his/her chart
+    String[] your_array;
 
-    // availableJList is list that student can take
-    // yourJList is list that student choose for submit
-    private JList availableJList, yourJList;
+    // subject01~10 is check box of subjects
+    private JCheckBox subject00, subject01, subject02, subject03, subject04;
+    private JCheckBox subject05, subject06, subject07, subject08, subject09;
 
-    private JButton addSubject, removeSubject, submitSubject;
-    private JLabel AvailableLabel, YourLabel;
-    private JScrollPane AvailableScroll, YourScroll;
+    private  JButton submitSubject;
 
     // studentCombo is show list of students in database
     private JComboBox studentCombo;
 
     // Subjects_Panel is main frame. It is BorderLayout. We add north, south, and center in here
-    // CenterPanel is center panel of outter frame. It is GridLayout. It is combination of many buttons and labels
+    // CenterPanel is center panel of outer frame. It is GridLayout. It is combination of many buttons and labels
     private JPanel CenterPanel;
 
 
@@ -40,129 +36,52 @@ public class Subjects_Panel extends JPanel
         setLayout(new BorderLayout());
 
         // center of BorderLayout
-        CenterPanel.setLayout(new GridLayout(3, 2));
+        CenterPanel.setLayout(new GridLayout(5, 2));
 
         // add data in JComboBox with Refresher below
         studentCombo = new JComboBox();
+        studentCombo.addActionListener(new clickToShowStudentInfoButtonListener());
 
         // initialize subjects that student can take
-        available_array = new String[10];
-        available_array[0] = "English";
-        available_array[1] = "Geometry";
-        available_array[2] = "Biology";
-        available_array[3] = "Social Study";
-        available_array[4] = "Computer";
-        available_array[5] = "Spanish";
-        available_array[6] = "History";
-        available_array[7] = "Chemistry";
-        available_array[8] = "Algebra";
-        available_array[9] = "Lunch Time";
-
-        // initialize student's cart
-        // set all values in array to " " for avoid null
-        your_array = new String[10];
-        for(int k = 0;k < your_array.length;k++)
-        {
-            your_array[k] = " ";
-        }
-
-        // add JList "availableJList" into JScrollPane "AvailableScroll" for add scroll in JList
-        availableJList = new JList(available_array);
-        AvailableScroll = new JScrollPane();
-        AvailableScroll.setViewportView(availableJList);
+        subject00 = new JCheckBox("English");
+        subject01 = new JCheckBox("Geometry");
+        subject02 = new JCheckBox("Biology");
+        subject03 = new JCheckBox("Social Study");
+        subject04 = new JCheckBox("Computer");
+        subject05 = new JCheckBox("Spanish");
+        subject06 = new JCheckBox("History");
+        subject07 = new JCheckBox("Chemistry");
+        subject08 = new JCheckBox("Algebra");
+        subject09 = new JCheckBox("Calculus");
 
 
-        // add JList "yourJList" into JScrollPane "YourScroll" for add scroll in JList
-        yourJList = new JList(your_array);
-        YourScroll = new JScrollPane();
-        YourScroll.setViewportView(yourJList);
 
 
-        addSubject = new JButton("Add Subject");
-        addSubject.addActionListener(new AddSubjectButtonListener());
-        removeSubject = new JButton("Remove Subject");
-        removeSubject.addActionListener(new RemoveSubjectButtonListener());
         submitSubject = new JButton("Submit Request");
         submitSubject.addActionListener(new submitSubjectButtonListener());
 
-        AvailableLabel = new JLabel("Available subjects you can take      ");
-        YourLabel = new JLabel("Your shipping cart");
+
+        CenterPanel.add(subject00);
+        CenterPanel.add(subject01);
+        CenterPanel.add(subject02);
+        CenterPanel.add(subject03);
+        CenterPanel.add(subject04);
+        CenterPanel.add(subject05);
+        CenterPanel.add(subject06);
+        CenterPanel.add(subject07);
+        CenterPanel.add(subject08);
+        CenterPanel.add(subject09);
 
 
-
-        // add UIs to CenterPanel
-        CenterPanel.add(AvailableLabel);
-        CenterPanel.add(YourLabel);
-        CenterPanel.add(AvailableScroll);
-        CenterPanel.add(YourScroll);
-        CenterPanel.add(addSubject);
-        CenterPanel.add(removeSubject);
 
         // add UIs to Subjects_Panel
         add(studentCombo, BorderLayout.NORTH);
         add(submitSubject, BorderLayout.SOUTH);
         add(CenterPanel, BorderLayout.CENTER);
+
     }
 
-    // ActionListener of button "addSubject"
-    private class AddSubjectButtonListener implements ActionListener
-    {
-        public void actionPerformed(ActionEvent event)
-        {
-            try
-            {
-                int selectedIndex = availableJList.getSelectedIndex();
 
-                if(!available_array[selectedIndex].equalsIgnoreCase(" "))
-                {
-                    String swap = " ";
-
-                    // move subject from available list(available_array) to student's cart(your_array)
-                    swap = available_array[selectedIndex];
-                    available_array[selectedIndex] = " ";
-                    your_array[selectedIndex] = swap;
-                }
-                else
-                {
-                    System.out.println("1: Selected subject is empty");
-                }
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    // ActionListener of button "removeSubject"
-    private class RemoveSubjectButtonListener implements ActionListener
-    {
-        public void actionPerformed(ActionEvent event)
-        {
-            try
-            {
-                int selectedIndex = yourJList.getSelectedIndex();
-
-                if(!your_array[selectedIndex].equalsIgnoreCase(" "))
-                {
-                    String swap = " ";
-
-                    // move subject from student's cart(your_array) to available list(available_array)
-                    swap = your_array[selectedIndex];
-                    your_array[selectedIndex] = " ";
-                    available_array[selectedIndex] = swap;
-                }
-                else
-                {
-                    System.out.println("2: Selected subject is empty");
-                }
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
-    }
 
     // add subjects student selected into global variable Student_List
     private class submitSubjectButtonListener implements ActionListener
@@ -178,9 +97,18 @@ public class Subjects_Panel extends JPanel
                     {
                         if(Main_Frame.Student_List[i].getStudentName().equalsIgnoreCase((String)studentCombo.getSelectedItem()))
                         {
-                            Main_Frame.Student_Database.addSubjects(Main_Frame.Student_List, your_array);
+                            // call function to save subjects student selected in your_array
+                            getSubjectsFromCheckBox();
+
+                            Main_Frame.Student_Database.addSubjects(Main_Frame.Student_List, i, your_array);
+
                             System.out.println("Request from " + Main_Frame.Student_List[i].getStudentName() + " is completed");
+
                             return;
+                        }
+                        else
+                        {
+                            // do nothing
                         }
                     }
                 }
@@ -193,9 +121,27 @@ public class Subjects_Panel extends JPanel
         }
     }
 
+    // ActionListener for JComboBox "studentCombo"
+    private class clickToShowStudentInfoButtonListener implements ActionListener
+    {
+        public void actionPerformed(ActionEvent event)
+        {
+            try
+            {
+                resetSubjects();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
     // remove all item in JComboBox, and re-add it
     public void subjectsRefresher()
     {
+        resetSubjects();
+
         studentCombo.removeAllItems();
 
         // Student_List is list of students in database
@@ -209,6 +155,91 @@ public class Subjects_Panel extends JPanel
             {
                 // do nothing
             }
+        }
+    }
+
+    // change array "your_array" to selected subjects
+    private void getSubjectsFromCheckBox()
+    {
+        int indexCount = 0;
+        if(subject00.isSelected())
+        {
+            your_array[indexCount] = subject00.getText();
+            indexCount++;
+        }
+        if(subject01.isSelected())
+        {
+            your_array[indexCount] = subject01.getText();
+            indexCount++;
+        }
+        if(subject02.isSelected())
+        {
+            your_array[indexCount] = subject02.getText();
+            indexCount++;
+        }
+        if(subject03.isSelected())
+        {
+            your_array[indexCount] = subject03.getText();
+            indexCount++;
+        }
+        if(subject04.isSelected())
+        {
+            your_array[indexCount] = subject04.getText();
+            indexCount++;
+        }
+        if(subject05.isSelected())
+        {
+            your_array[indexCount] = subject05.getText();
+            indexCount++;
+        }
+        if(subject06.isSelected())
+        {
+            your_array[indexCount] = subject06.getText();
+            indexCount++;
+        }
+        if(subject07.isSelected())
+        {
+            your_array[indexCount] = subject07.getText();
+            indexCount++;
+        }
+        if(subject08.isSelected())
+        {
+            your_array[indexCount] = subject08.getText();
+            indexCount++;
+        }
+        if(subject09.isSelected())
+        {
+            your_array[indexCount] = subject09.getText();
+            indexCount++;
+        }
+
+        // set unused indexes to " " for avaid null
+        for(int i = indexCount;i < your_array.length;i++)
+        {
+            your_array[indexCount] = " ";
+        }
+    }
+
+    public void resetSubjects()
+    {
+        System.out.println("Reset ------------------");
+        subject00.setSelected(false);
+        subject01.setSelected(false);
+        subject02.setSelected(false);
+        subject03.setSelected(false);
+        subject04.setSelected(false);
+        subject05.setSelected(false);
+        subject06.setSelected(false);
+        subject07.setSelected(false);
+        subject08.setSelected(false);
+        subject09.setSelected(false);
+
+        // reset student's cart
+        // set all values in array to " " for avoid null
+        your_array = new String[10];
+        for(int k = 0;k < your_array.length;k++)
+        {
+            your_array[k] = " ";
         }
     }
 }
