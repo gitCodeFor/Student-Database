@@ -76,6 +76,8 @@ public class Main_Frame
         //Add_Panel WPanel01 = new Add_Panel();
         frame.getContentPane().add(tab01);
 
+
+
         frame.pack();
 
         frame.setSize(700, 400);
